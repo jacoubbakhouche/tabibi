@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { supabase } from '../lib/supabase';
-import { Loader2, X, Save, User, Upload } from 'lucide-react';
+import { Loader2, X, User, Upload } from 'lucide-react';
 
 interface ProfileEditorProps {
     initialName: string;

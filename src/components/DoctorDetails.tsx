@@ -43,10 +43,7 @@ export default function DoctorDetails({ doctor, onClose, onBook, onLocate }: Doc
 
     // Reviews State
     const [reviews, setReviews] = useState<any[]>([]);
-    const [newRating, setNewRating] = useState(0);
-    const [newComment, setNewComment] = useState('');
-    const [isSubmittingReview, setIsSubmittingReview] = useState(false);
-    const [hasReviewed, setHasReviewed] = useState(false);
+
     const [reviewStats, setReviewStats] = useState({ rating: doctor.rating || 5.0, count: doctor.reviews_count || 0 });
 
 
@@ -57,7 +54,7 @@ export default function DoctorDetails({ doctor, onClose, onBook, onLocate }: Doc
     }, [doctor.id, user]);
 
     const fetchReviews = async () => {
-        const { data, error } = await supabase
+        const { data } = await supabase
             .from('reviews')
             .select('*')
             .eq('doctor_id', doctor.id)
@@ -71,40 +68,13 @@ export default function DoctorDetails({ doctor, onClose, onBook, onLocate }: Doc
             setReviewStats({ rating: avg, count });
 
             if (user) {
-                const userReview = data.find((r: any) => r.patient_id === user.id);
-                setHasReviewed(!!userReview);
+                // const userReview = data.find((r: any) => r.patient_id === user.id);
+                // setHasReviewed(!!userReview);
             }
         }
     };
 
-    const handleSubmitReview = async () => {
-        if (!user) return alert('Please login to review');
-        if (newRating === 0) return alert('Please select a rating');
 
-        setIsSubmittingReview(true);
-        try {
-            const { error } = await supabase
-                .from('reviews')
-                .insert([{
-                    doctor_id: doctor.id,
-                    patient_id: user.id,
-                    rating: newRating,
-                    comment: newComment
-                }]);
-
-            if (error) throw error;
-
-            // Allow immediate update
-            setNewComment('');
-            setNewRating(0);
-            fetchReviews(); // Refresh list and hasReviewed status
-            alert('Review submitted!');
-        } catch (error: any) {
-            alert('Error submitting review: ' + error.message);
-        } finally {
-            setIsSubmittingReview(false);
-        }
-    };
 
     // Generate next 14 days
     const upcomingDates = Array.from({ length: 14 }, (_, i) => {

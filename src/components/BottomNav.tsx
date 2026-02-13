@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Home, MessageSquare, MapPin, Calendar } from 'lucide-react';
 
 interface BottomNavProps {
