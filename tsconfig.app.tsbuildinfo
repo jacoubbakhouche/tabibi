@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/components/loadingspinner.tsx","./src/context/authcontext.tsx","./src/lib/supabase.ts","./src/pages/admindashboard.tsx","./src/pages/login.tsx","./src/pages/signup.tsx","./src/pages/signupdoctor.tsx","./src/pages/signuppatient.tsx","./src/pages/signupselection.tsx"],"version":"5.7.3"}
