@@ -10,6 +10,7 @@ import BookingModal from '../components/BookingModal';
 import DoctorDetails from '../components/DoctorDetails';
 import BottomNav from '../components/BottomNav';
 import HomePage from './HomePage';
+import DoctorsPage from './DoctorsPage';
 import ChatPage from './ChatPage';
 import UserMenu from '../components/UserMenu';
 import AppointmentsList from '../components/AppointmentsList';
@@ -106,7 +107,7 @@ export default function PatientDashboard() {
     const { user, signOut } = useAuth();
 
     // Navigation State
-    const [activeTab, setActiveTab] = useState<'home' | 'messages' | 'map' | 'appointments'>('home');
+    const [activeTab, setActiveTab] = useState<'home' | 'messages' | 'map' | 'appointments' | 'doctors'>('home');
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const [doctors, setDoctors] = useState<Doctor[]>([]);
@@ -248,7 +249,7 @@ export default function PatientDashboard() {
         setActiveTab('home'); // Go back to home to see new appointment
     };
 
-    const handleTabChange = (tab: 'home' | 'messages' | 'map' | 'appointments') => {
+    const handleTabChange = (tab: 'home' | 'messages' | 'map' | 'appointments' | 'doctors') => {
         setActiveTab(tab);
     };
 
@@ -392,10 +393,13 @@ export default function PatientDashboard() {
                     <HomePage
                         onNavigateToMap={() => setActiveTab('map')}
                         onOpenMenu={() => setIsMenuOpen(true)}
+                        onNavigateToDoctors={() => setActiveTab('doctors')}
                     />
                 )}
 
                 {activeTab === 'map' && renderMap()}
+
+                {activeTab === 'doctors' && <DoctorsPage />}
 
                 {activeTab === 'messages' && (
                     <ChatPage onChatStateChange={setIsChatOpen} />

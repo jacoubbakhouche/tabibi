@@ -1,9 +1,9 @@
 
-import { Home, MessageSquare, MapPin, Calendar } from 'lucide-react';
+import { Home, MessageSquare, MapPin, Calendar, Search } from 'lucide-react';
 
 interface BottomNavProps {
-    activeTab: 'home' | 'messages' | 'map' | 'appointments';
-    onTabChange: (tab: 'home' | 'messages' | 'map' | 'appointments') => void;
+    activeTab: 'home' | 'messages' | 'map' | 'appointments' | 'doctors';
+    onTabChange: (tab: 'home' | 'messages' | 'map' | 'appointments' | 'doctors') => void;
 }
 
 export default function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
@@ -21,11 +21,11 @@ export default function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
                 </button>
 
                 <button
-                    onClick={() => onTabChange('appointments')}
-                    className={`flex flex-col items-center transition-all duration-300 ${activeTab === 'appointments' ? 'text-blue-600 scale-110' : 'text-gray-500 hover:text-gray-900'}`}
+                    onClick={() => onTabChange('doctors')}
+                    className={`flex flex-col items-center transition-all duration-300 ${activeTab === 'doctors' ? 'text-blue-600 scale-110' : 'text-gray-500 hover:text-gray-900'}`}
                 >
-                    <Calendar className={`w-6 h-6 ${activeTab === 'appointments' ? 'fill-current' : ''}`} />
-                    {activeTab === 'appointments' && <span className="w-1 h-1 bg-blue-600 rounded-full mt-1 animate-pulse"></span>}
+                    <Search className={`w-6 h-6 ${activeTab === 'doctors' ? 'text-blue-600' : ''}`} />
+                    {activeTab === 'doctors' && <span className="w-1 h-1 bg-blue-600 rounded-full mt-1 animate-pulse"></span>}
                 </button>
 
                 <button
@@ -35,6 +35,14 @@ export default function BottomNav({ activeTab, onTabChange }: BottomNavProps) {
                     <div className={`p-2 rounded-full ${activeTab === 'map' ? 'bg-blue-600 text-white shadow-lg shadow-blue-200' : 'bg-white/50 text-gray-500 hover:bg-white'}`}>
                         <MapPin className="w-6 h-6" />
                     </div>
+                </button>
+
+                <button
+                    onClick={() => onTabChange('appointments')}
+                    className={`flex flex-col items-center transition-all duration-300 ${activeTab === 'appointments' ? 'text-blue-600 scale-110' : 'text-gray-500 hover:text-gray-900'}`}
+                >
+                    <Calendar className={`w-6 h-6 ${activeTab === 'appointments' ? 'fill-current' : ''}`} />
+                    {activeTab === 'appointments' && <span className="w-1 h-1 bg-blue-600 rounded-full mt-1 animate-pulse"></span>}
                 </button>
 
                 <button

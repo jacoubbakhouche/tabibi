@@ -31,9 +31,10 @@ interface UserProfile {
 interface HomePageProps {
     onNavigateToMap: () => void;
     onOpenMenu: () => void;
+    onNavigateToDoctors: () => void;
 }
 
-export default function HomePage({ onNavigateToMap, onOpenMenu }: HomePageProps) {
+export default function HomePage({ onNavigateToMap, onOpenMenu, onNavigateToDoctors }: HomePageProps) {
     const { user } = useAuth();
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
     const [loading, setLoading] = useState(true);
@@ -234,7 +235,7 @@ export default function HomePage({ onNavigateToMap, onOpenMenu }: HomePageProps)
             <div className="mb-8">
                 <div className="flex justify-between items-center mb-4">
                     <h3 className="font-bold text-lg text-gray-900">Doctor Specialty</h3>
-                    <button className="text-gray-400 text-sm" onClick={() => setSelectedCategory('')}>See All</button>
+                    <button className="text-gray-400 text-sm" onClick={onNavigateToDoctors}>See All</button>
                 </div>
                 <div className="flex space-x-4 overflow-x-auto pb-2 scrollbar-hide">
                     {specialties.map((cat, i) => (
@@ -255,7 +256,7 @@ export default function HomePage({ onNavigateToMap, onOpenMenu }: HomePageProps)
             <div className="mb-8">
                 <div className="flex justify-between items-center mb-4">
                     <h3 className="font-bold text-lg text-gray-900">{isSearching ? 'Search Results' : 'Top Doctors'}</h3>
-                    {!isSearching && <button className="text-gray-400 text-sm">See All</button>}
+                    {!isSearching && <button className="text-gray-400 text-sm" onClick={onNavigateToDoctors}>See All</button>}
                 </div>
 
                 {displayDoctors.length === 0 && isSearching ? (
