@@ -252,10 +252,7 @@ export default function PatientDashboard() {
         setActiveTab(tab);
     };
 
-    const specialties = [
-        "Cardiologist", "Dermatologist", "Pediatrician",
-        "Neurologist", "Orthopedic Surgeon", "Psychiatrist", "Dentist"
-    ];
+    const specialties = [...new Set(doctors.map(d => d.specialty))].sort();
 
     // Render Map View
     const renderMap = () => {

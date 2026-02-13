@@ -47,6 +47,28 @@ export default function HomePage({ onNavigateToMap, onOpenMenu }: HomePageProps)
     const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
     const [doctorToBook, setDoctorToBook] = useState<Doctor | null>(null);
     const [bookingSuccess, setBookingSuccess] = useState(false);
+    const [specialties, setSpecialties] = useState<{ name: string, icon: string }[]>([]);
+
+    useEffect(() => {
+        const fetchSpecialties = async () => {
+            // Fetch all approved doctors to find active specialties
+            const { data } = await supabase
+                .from('doctors')
+                .select('specialty')
+                .eq('status', 'approved');
+
+            if (data) {
+                const unique = [...new Set(data.map(d => d.specialty))].sort();
+
+                const mapped = unique.map(name => ({
+                    name,
+                    icon: "🩺" // Generic icon for all
+                }));
+                setSpecialties(mapped);
+            }
+        };
+        fetchSpecialties();
+    }, []);
 
     useEffect(() => {
         if (user) {
@@ -153,12 +175,7 @@ export default function HomePage({ onNavigateToMap, onOpenMenu }: HomePageProps)
         setTimeout(() => setBookingSuccess(false), 3000);
     };
 
-    const categories = [
-        { name: "Neurologist", icon: "🧠", color: "bg-blue-600" },
-        { name: "Pediatrician", icon: "👶", color: "bg-white" },
-        { name: "Dentist", icon: "🦷", color: "bg-white" },
-        { name: "Cardiologist", icon: "❤️", color: "bg-white" },
-    ];
+
 
     if (loading) return <div className="flex justify-center p-10"><Loader2 className="animate-spin text-blue-600" /></div>;
 
@@ -211,6 +228,8 @@ export default function HomePage({ onNavigateToMap, onOpenMenu }: HomePageProps)
                 </button>
             </div>
 
+
+
             {/* Doctor Specialty */}
             <div className="mb-8">
                 <div className="flex justify-between items-center mb-4">
@@ -218,7 +237,7 @@ export default function HomePage({ onNavigateToMap, onOpenMenu }: HomePageProps)
                     <button className="text-gray-400 text-sm" onClick={() => setSelectedCategory('')}>See All</button>
                 </div>
                 <div className="flex space-x-4 overflow-x-auto pb-2 scrollbar-hide">
-                    {categories.map((cat, i) => (
+                    {specialties.map((cat, i) => (
                         <button
                             key={i}
                             onClick={() => setSelectedCategory(selectedCategory === cat.name ? '' : cat.name)}
