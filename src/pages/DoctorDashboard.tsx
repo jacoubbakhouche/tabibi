@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../context/AuthContext';
-import { MapPin, Save, Loader2, Upload, Clock, Calendar, Crosshair, Menu, X, LogOut, LayoutDashboard, Phone } from 'lucide-react';
+import { MapPin, Save, Loader2, Upload, Calendar, Crosshair, Menu, X, LogOut, LayoutDashboard } from 'lucide-react';
 import LocationPicker from '../components/LocationPicker';
 import DoctorBottomNav from '../components/DoctorBottomNav';
 import ChatPage from './ChatPage';

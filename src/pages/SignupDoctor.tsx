@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { supabase } from '../lib/supabase';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, Stethoscope, Loader2 } from 'lucide-react';
 
 export default function SignupDoctor() {
@@ -14,6 +14,8 @@ export default function SignupDoctor() {
         password: ''
     });
 
+    const [isSpecialtyOpen, setIsSpecialtyOpen] = useState(false);
+
     const SPECIALTIES = [
         'General Practitioner',
         'Cardiologist',
@@ -24,6 +26,30 @@ export default function SignupDoctor() {
         'Psychiatrist',
         'Dentist',
         'Ophthalmologist',
+        'Gynecologist',
+        'Urologist',
+        'Gastroenterologist',
+        'Pulmonologist',
+        'Oncologist',
+        'Endocrinologist',
+        'Rheumatologist',
+        'Nephrologist',
+        'Hematologist',
+        'Anesthesiologist',
+        'Radiologist',
+        'Surgeon',
+        'Plastic Surgeon',
+        'ENT Specialist',
+        'Allergist',
+        'Internist',
+        'Family Medicine',
+        'Sports Medicine',
+        'Geriatrician',
+        'Pathologist',
+        'Emergency Medicine',
+        'Nutritionist',
+        'Physiotherapist',
+        'Psychologist',
         'Other'
     ];
 
@@ -129,15 +155,47 @@ export default function SignupDoctor() {
                         <div>
                             <label className="block text-sm font-medium text-gray-700 ml-1 mb-1">Medical Specialty</label>
                             <div className="relative">
-                                <select
+                                <input
+                                    type="text"
                                     required
                                     className="appearance-none block w-full px-4 py-3 bg-white/50 border border-gray-200/60 rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-sm"
+                                    placeholder="Search or type specialty..."
                                     value={formData.specialty}
-                                    onChange={(e) => setFormData({ ...formData, specialty: e.target.value })}
-                                >
-                                    <option value="">Select Specialty</option>
-                                    {SPECIALTIES.map(s => <option key={s} value={s}>{s}</option>)}
-                                </select>
+                                    onChange={(e) => {
+                                        setFormData({ ...formData, specialty: e.target.value });
+                                        setIsSpecialtyOpen(true);
+                                    }}
+                                    onFocus={() => setIsSpecialtyOpen(true)}
+                                    // Delay hiding to allow click event to register
+                                    onBlur={() => setTimeout(() => setIsSpecialtyOpen(false), 200)}
+                                />
+                                <div className="absolute right-3 top-3.5 text-gray-400 pointer-events-none">
+                                    <ChevronLeft className="w-4 h-4 rotate-[-90deg]" />
+                                </div>
+
+                                {isSpecialtyOpen && (
+                                    <div className="absolute z-20 w-full mt-1 bg-white border border-gray-100 rounded-xl shadow-lg max-h-60 overflow-y-auto scrollbar-hide py-1">
+                                        {SPECIALTIES.filter(s =>
+                                            s.toLowerCase().includes(formData.specialty.toLowerCase())
+                                        ).length > 0 ? (
+                                            SPECIALTIES.filter(s =>
+                                                s.toLowerCase().includes(formData.specialty.toLowerCase())
+                                            ).map(s => (
+                                                <div
+                                                    key={s}
+                                                    className="px-4 py-2.5 hover:bg-blue-50 cursor-pointer text-sm text-gray-700 transition-colors"
+                                                    onClick={() => setFormData({ ...formData, specialty: s })}
+                                                >
+                                                    {s}
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <div className="px-4 py-3 text-sm text-gray-500 italic text-center">
+                                                Type to add custom specialty
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
                             </div>
                         </div>
 

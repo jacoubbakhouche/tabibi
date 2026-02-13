@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, useMapEvents, useMap } from 'react-leaflet';
 import { Crosshair } from 'lucide-react';
 import 'leaflet/dist/leaflet.css';
@@ -48,7 +48,7 @@ function LocateControl({ setPosition, onLocationSelect }: any) {
                 onLocationSelect(e.latlng.lat, e.latlng.lng);
                 map.flyTo(e.latlng, map.getZoom());
             })
-            .on("locationerror", function (e: any) {
+            .on("locationerror", function () {
                 alert("Could not access your location. Please enable GPS permissions.");
             });
     };
@@ -100,6 +100,7 @@ export default function LocationPicker({ onLocationSelect, initialLat, initialLn
     const [position, setPosition] = useState<{ lat: number; lng: number } | null>(
         initialLat && initialLng ? { lat: initialLat, lng: initialLng } : null
     );
+    const selectedCity = "Algiers";
 
     // Determines if we should auto-locate: ONLY if no initial position is provided and not disabled
     const shouldAutoLocate = !disableClick && !initialLat && !initialLng;
@@ -135,6 +136,15 @@ export default function LocationPicker({ onLocationSelect, initialLat, initialLn
                 {!disableClick && (
                     <>
                         <LocateControl setPosition={setPosition} onLocationSelect={onLocationSelect} />
+                        <select
+                            className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-sm appearance-none cursor-pointer"
+                            value={selectedCity}
+                            onChange={() => { }}
+                            disabled={true} // For now, only Algiers
+                        >
+                            {/* Option for Algiers, assuming it's the only one for now */}
+                            <option value="Algiers">Algiers</option>
+                        </select>
                         <LocateOnMount
                             setPosition={setPosition}
                             onLocationSelect={onLocationSelect}

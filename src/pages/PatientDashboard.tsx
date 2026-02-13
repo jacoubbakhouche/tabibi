@@ -106,12 +106,11 @@ export default function PatientDashboard() {
     const { user, signOut } = useAuth();
 
     // Navigation State
-    const [activeTab, setActiveTab] = useState<'home' | 'messages' | 'map'>('home');
+    const [activeTab, setActiveTab] = useState<'home' | 'messages' | 'map' | 'appointments'>('home');
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const [doctors, setDoctors] = useState<Doctor[]>([]);
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
-    const [loading, setLoading] = useState(true);
 
     // Map States
     const [userLocation, setUserLocation] = useState<[number, number] | null>(null);
@@ -199,7 +198,6 @@ export default function PatientDashboard() {
     };
 
     const fetchDoctors = async () => {
-        setLoading(true);
         try {
             let query = supabase
                 .from('doctors')
@@ -216,8 +214,6 @@ export default function PatientDashboard() {
             setDoctors(data || []);
         } catch (error) {
             console.error('Error fetching doctors:', error);
-        } finally {
-            setLoading(false);
         }
     };
 
@@ -252,7 +248,7 @@ export default function PatientDashboard() {
         setActiveTab('home'); // Go back to home to see new appointment
     };
 
-    const handleTabChange = (tab: 'home' | 'messages' | 'map') => {
+    const handleTabChange = (tab: 'home' | 'messages' | 'map' | 'appointments') => {
         setActiveTab(tab);
     };
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import { MessageSquare, Calendar, User } from 'lucide-react';
 
 interface DoctorBottomNavProps {

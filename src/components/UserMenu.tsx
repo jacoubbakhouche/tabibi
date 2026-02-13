@@ -1,5 +1,5 @@
-import React, { useRef, useEffect } from 'react';
-import { User, LogOut, Settings } from 'lucide-react';
+import { useRef, useEffect } from 'react';
+import { LogOut, User } from 'lucide-react';
 
 interface UserMenuProps {
     isOpen: boolean;
